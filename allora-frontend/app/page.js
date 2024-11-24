@@ -1,101 +1,185 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Image from 'next/image'; // לוגו ותמונות
+import Link from 'next/link'; // קישורים לתפריט
+import { useState, useEffect } from "react"; // לשימוש ב-Testimonials דינמיים
+import './home.css'; // חיבור עיצוב מותאם
+
+const HomePage = () => {
+  const [testimonials, setTestimonials] = useState([]);
+
+  // Fetch testimonials from server
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch('/api/testimonials'); // URL לשרת ה-API שלך
+        const data = await response.json();
+        setTestimonials(data);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <div className="home-container">
+      {/* לוגו ממורכז */}
+      <header className="header">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/Allora.png" // נתיב הלוגו מתיקיית public
+          alt="Allora Logo"
+          width={200}
+          height={200}
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* תפריט צדדי */}
+      <nav className="horizontal-menu">
+        <div className='left-horizontal-menu'>
+        <Link href="/products" className="menu-item">
+          <Image
+            src="/icons/products.png" // אייקון ל"מוצרים"
+            alt="Products Icon"
+            className="menu-icon"
+            width={42}
+            height={42}
+          />
+          Browse Products
+        </Link>
+        <Link href="/cart" className="menu-item">
+          <Image
+            src="/icons/cart.png" // אייקון ל"עגלת קניות"
+            alt="Cart Icon"
+            className="menu-icon"
+            width={42}
+            height={42}
+          />
+          Cart
+        </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div className='right-horizontal-menu'>
+        <Link href="/contact" className="menu-item">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/icons/contact.png" // אייקון ל"צור קשר"
+            alt="Contact Icon"
+            className="menu-icon"
+            width={42}
+            height={42}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+          Contact Us
+        </Link>
+        <Link href="/about" className="menu-item">
           <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+            src="/icons/about.png" // אייקון ל"אודות"
+            alt="About Icon"
+            className="menu-icon"
+            width={42}
+            height={42}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          About Us
+        </Link>
+        </div>
+      </nav>
+
+      {/* תוכן העמוד */}
+      <div className="hero-banner">
+        <h1>Discover Amazing Deals!</h1>
+        <p>Shop now and save big on all your favorite products.</p>
+        <button className="shop-now-button">Shop Now</button>
+      </div>
+      <div className="categories-section">
+        <h2>Shop by Category</h2>
+        <div className="categories-grid">
+          <div className="category-item">
+            <Image src="/icons/home.png" alt="Home" width={50} height={50} />
+            <p>Home</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/electronics.png" alt="Electronics" width={50} height={50} />
+            <p>Electronics</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/fashion.png" alt="Fashion" width={50} height={50} />
+            <p>Fashion</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/toys.png" alt="Toys" width={50} height={50} />
+            <p>Toys</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/beauty.png" alt="Beauty" width={50} height={50} />
+            <p>Beauty</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/sports.png" alt="Sports" width={50} height={50} />
+            <p>Sports</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/books.png" alt="Books" width={50} height={50} />
+            <p>Books</p>
+          </div>
+          <div className="category-item">
+            <Image src="/icons/automotive.png" alt="Automotive" width={50} height={50} />
+            <p>Automotive</p>
+          </div>
+        </div>
+      </div>
+      <div className="featured-products">
+        <h2>Featured Products</h2>
+        <div className="products-grid">
+          <div className="product-item">
+            <Image src="/products/product1.jpg" alt="Product 1" width={150} height={150} />
+            <p>Smartphone X</p>
+            <p>$999</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+          <div className="product-item">
+            <Image src="/products/product2.jpg" alt="Product 2" width={150} height={150} />
+            <p>Running Shoes</p>
+            <p>$120</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+          <div className="product-item">
+            <Image src="/products/product3.jpg" alt="Product 3" width={150} height={150} />
+            <p>Bluetooth Speaker</p>
+            <p>$80</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+          <div className="product-item">
+            <Image src="/products/product4.jpg" alt="Product 4" width={150} height={150} />
+            <p>Wrist Watch</p>
+            <p>$250</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+          <div className="product-item">
+            <Image src="/products/product5.jpg" alt="Product 5" width={150} height={150} />
+            <p>Gaming Headset</p>
+            <p>$150</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+          <div className="product-item">
+            <Image src="/products/product6.jpg" alt="Product 6" width={150} height={150} />
+            <p>Kitchen Mixer</p>
+            <p>$300</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div className="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div className="testimonial-list">
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="testimonial-item">
+              <p className="testimonial-text">"{testimonial.text}"</p>
+              <p className="testimonial-author">- {testimonial.author}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default HomePage;
